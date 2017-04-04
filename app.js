@@ -6,17 +6,24 @@ var numberOfTeam = 0;
 
 // fonction pour sauvegarder sur le local Storage (in progress)
 
+
+
 function save() {
+	localStorage.removeItem(groupe);
 	localStorage.setItem('groupe', JSON.stringify(groupe));
 	localStorage.setItem('numberOfTeam', JSON.stringify(numberOfTeam));
 };
 
+
+
 // fonction pour récupérer mon tableau 'groupe' et le nombre de groupe (in progress)
+
+
 
 function load() {
 	a = localStorage.getItem('groupe');	
 	if( a != null ) {
-		groupe = JSON.parse( a );
+		groupe =  JSON.parse(a);
 	}
 	console.log(groupe);
 	b = localStorage.getItem('numberOfTeam');
@@ -26,27 +33,35 @@ function load() {
 	console.log(numberOfTeam);
 };
 
+
+
+
 // le tableau de départ
 
-var personne = ["Jordy", "Florian", "Mouhad", 
-				"Raphael", "Marco", "Dimitri", 
-				"Emilie", "Julien", "Franck", 
-				"Romain", "Aurelie", "Oceane", 
-				"Morel", "Gregory", "Maxime"];
+	var personne = ["Jordy", "Florian", "Mouhad", 
+					"Raphael", "Marco", "Dimitri", 
+					"Emilie", "Julien", "Franck", 
+					"Romain", "Aurelie", "Oceane", 
+					"Morel", "Gregory", "Maxime"];
 
+	
+	
 
 //  tableau qui nous positionne à un index aléatoire à partir du tableau 'personne' 
 // je décremente en parcourant le tableau personne et j'enlève la personne sélectionné du tableau de départ pour 
 // ne pas le repush!
 
 var createNewArray = function(){
-	for(var i = personne.length; i > 0; i--){
+
+	var map = personne.map(function(a){ return a});
+	//console.log(map);
+	for(var i = map.length; i > 0; i--){
 		random = Math.floor(Math.random() * i);
 		//console.log(personne);
 		//console.log(personne[random]);
-		groupe.push(personne[random]);
-		personne.splice(random, 1);
-		//console.log(groupe);
+		groupe.push(map[random]);
+		map.splice(random, 1);
+		console.log(groupe);
 	}
 };
 
@@ -54,7 +69,8 @@ var createNewArray = function(){
 
 var addHeadTable = function(){
 	numberOfTeam = parseInt(prompt("Combien d'équipe?"));
-	for(var n = 0; n < parseInt(numberOfTeam); n++){
+	$('#headTable').children().remove();
+	for(var n = 0; n < numberOfTeam; n++){
 		$('#headTable').append("<th>Groupe</th>");
 	}
 };
@@ -64,7 +80,7 @@ var addHeadTable = function(){
 // quand toutes une ligne est rempli j'en crée une nouvelle avec le if(condition) 
 	
 var createDynamicTable = function(){
-
+	$('#bodyTable').children().remove();
 	$('tbody').append("<tr></tr>");
 	for( var j = 1 ; j <= groupe.length; j++ ){
 		$("tr").last().append("<td>" + groupe[j - 1] + "</td>");
@@ -73,25 +89,28 @@ var createDynamicTable = function(){
 				$('tbody').append("<tr></tr>");
 			}	
 	};
+	groupe =[];
+	console.log(groupe);
 };
 
 
 $(document).ready(function(){
 
+
+
+
 	
-
-
-
 	// Quand je clique sur le bouton 'Shake' le tableau se mélange
 	// l'ordre des fonctions est important pour faire marcher le script normalement
 	
 	$('#button').click(function(){
+		
 		createNewArray();
 		addHeadTable();
 		createDynamicTable();
 	});  
 
-	
+
 
 
 
