@@ -8,7 +8,8 @@ var numberOfTeam = 0;
 
 
 
-function save() {
+function save() 
+{
 	localStorage.removeItem(groupe);
 	localStorage.setItem('groupe', JSON.stringify(groupe));
 	localStorage.setItem('numberOfTeam', JSON.stringify(numberOfTeam));
@@ -20,14 +21,19 @@ function save() {
 
 
 
-function load() {
+function load() 
+{
 	a = localStorage.getItem('groupe');	
-	if( a != null ) {
+	
+	if( a != null ) 
+	{
 		groupe =  JSON.parse(a);
 	}
 	console.log(groupe);
 	b = localStorage.getItem('numberOfTeam');
-	if( b != null ) {
+	
+	if( b != null ) 
+	{
 		numberOfTeam = JSON.parse( b );
 	}
 	console.log(numberOfTeam);
@@ -38,11 +44,11 @@ function load() {
 
 // le tableau de départ
 
-	var personne = ["Jordy", "Florian", "Mouhad", 
-					"Raphael", "Marco", "Dimitri", 
-					"Emilie", "Julien", "Franck", 
-					"Romain", "Aurelie", "Oceane", 
-					"Morel", "Gregory", "Maxime"];
+	//var personne = ["Jordy", "Florian", "Mouhad", 
+	//				"Raphael", "Marco", "Dimitri", 
+	//				"Emilie", "Julien", "Franck", 
+	//				"Romain", "Aurelie", "Oceane", 
+	//				"Morel", "Gregory", "Maxime"];
 
 	
 	
@@ -51,11 +57,14 @@ function load() {
 // je décremente en parcourant le tableau personne et j'enlève la personne sélectionné du tableau de départ pour 
 // ne pas le repush!
 
-var createNewArray = function(){
+var createNewArray = function()
+{
 
 	var map = personne.map(function(a){ return a});
 	//console.log(map);
-	for(var i = map.length; i > 0; i--){
+	
+	for(var i = map.length; i > 0; i--)
+	{
 		random = Math.floor(Math.random() * i);
 		//console.log(personne);
 		//console.log(personne[random]);
@@ -67,10 +76,13 @@ var createNewArray = function(){
 
 // je crée le nombre de groupe et je le met direct dans mon tableau html 
 
-var addHeadTable = function(){
+var addHeadTable = function()
+{
 	numberOfTeam = parseInt(prompt("Combien d'équipe?"));
 	$('#headTable').children().remove();
-	for(var n = 0; n < numberOfTeam; n++){
+	
+	for(var n = 0; n < numberOfTeam; n++)
+	{
 		$('#headTable').append("<th>Groupe</th>");
 	}
 };
@@ -79,12 +91,17 @@ var addHeadTable = function(){
 // je parcours le tableau 'groupe' pour remplir les cellules du tableau (cf annuaire)
 // quand toutes une ligne est rempli j'en crée une nouvelle avec le if(condition) 
 	
-var createDynamicTable = function(){
+var createDynamicTable = function()
+{
 	$('#bodyTable').children().remove();
 	$('tbody').append("<tr></tr>");
-	for( var j = 1 ; j <= groupe.length; j++ ){
+	
+	for( var j = 1 ; j <= groupe.length; j++ )
+	{
 		$("tr").last().append("<td>" + groupe[j - 1] + "</td>");
-			if(j % numberOfTeam === 0) {
+			
+			if(j % numberOfTeam === 0) 
+			{
 				//console.log("OK");
 				$('tbody').append("<tr></tr>");
 			}	
@@ -93,8 +110,33 @@ var createDynamicTable = function(){
 	console.log(groupe);
 };
 
+var allFunction = function()
+{
+	createNewArray();
+	addHeadTable();
+	createDynamicTable();
+};
 
-$(document).ready(function(){
+
+$(document).ready(function()
+{
+
+	var a = $.ajax(
+	{
+		url : 'http://192.168.1.131:3000/name' ,
+		success : function(data)
+		{
+			console.log(data);
+			console.log('success');
+		},
+		error : function(err)
+		{
+			console.log(err);
+		}
+
+
+	});
+
 
 
 
@@ -103,15 +145,10 @@ $(document).ready(function(){
 	// Quand je clique sur le bouton 'Shake' le tableau se mélange
 	// l'ordre des fonctions est important pour faire marcher le script normalement
 	
-	$('#button').click(function(){
-		
-		createNewArray();
-		addHeadTable();
-		createDynamicTable();
-	});  
-
-
-
+	$('#button').click(function()
+	{
+		allFunction();
+	});
 
 
 }); 
