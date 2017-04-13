@@ -15,7 +15,7 @@ var saveAjax = function()
 		{
 			task : 'set',
 			key : 'romaTest',
-			value : JSON.stringify(personne),
+			value : JSON.stringify(groupe)
 		}
 	});	
 }
@@ -46,9 +46,10 @@ var loadAjax = function()
 		success : function(data)
 		{
 			console.log(data);
-			var personne = JSON.parse(data);
-			personne = personne[0];
-			console.log(personne);
+			var groupe = JSON.parse(data);
+			groupe = groupe[0];
+			console.log(groupe);
+						
 		},
 		error : function(err)
 		{
@@ -167,7 +168,9 @@ var createDynamicTable = function()
 
 var allFunction = function()
 {
+
 	createNewArray();
+	saveAjax();
 	addHeadTable();
 	createDynamicTable();
 };
@@ -175,9 +178,7 @@ var allFunction = function()
 
 $(document).ready(function()
 {
-	deleteAjax();
-	saveAjax();
-	loadAjax();
+	
 
 
 	
@@ -187,6 +188,7 @@ $(document).ready(function()
 	$('#button').click(function()
 	{
 		allFunction();
+		loadAjax();
 	});
 
 
