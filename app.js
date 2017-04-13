@@ -1,5 +1,64 @@
 
 
+var personne =  ["Jordy", "Florian", "Mouhad", 
+				"Raphael", "Marco", "Dimitri", 
+				"Emilie", "Julien", "Franck", 
+				"Romain", "Aurelie", "Oceane", 
+				"Morel", "Gregory", "Maxime"];
+
+var saveAjax = function()
+{
+	$.ajax(
+	{
+		url:'http://192.168.1.50/json-db',
+		data :
+		{
+			task : 'set',
+			key : 'romaTest',
+			value : JSON.stringify(personne),
+		}
+	});	
+}
+
+var deleteAjax = function()
+{
+	$.ajax({
+		url:'http://192.168.1.50/json-db',
+		data: 
+		{
+			task: 'delete',
+			key: 'romaTest'
+		}
+	});	
+};
+
+
+var loadAjax = function()
+{
+	$.ajax(
+	{
+		url:'http://192.168.1.50/json-db',
+		data :
+		{
+			task : 'get',
+			key : 'romaTest',
+		},
+		success : function(data)
+		{
+			console.log(data);
+			var personne = JSON.parse(data);
+			personne = personne[0];
+			console.log(personne);
+		},
+		error : function(err)
+		{
+			console.log(err);
+		}
+	});
+}
+
+
+
 var groupe = [];
 var random;
 var numberOfTeam = 0;
@@ -44,11 +103,7 @@ function load()
 
 // le tableau de départ
 
-	//var personne = ["Jordy", "Florian", "Mouhad", 
-	//				"Raphael", "Marco", "Dimitri", 
-	//				"Emilie", "Julien", "Franck", 
-	//				"Romain", "Aurelie", "Oceane", 
-	//				"Morel", "Gregory", "Maxime"];
+	
 
 	
 	
@@ -120,25 +175,9 @@ var allFunction = function()
 
 $(document).ready(function()
 {
-
-	var a = $.ajax(
-	{
-		url : 'http://192.168.1.131:3000/name' ,
-		success : function(data)
-		{
-			console.log(data);
-			console.log('success');
-		},
-		error : function(err)
-		{
-			console.log(err);
-		}
-
-
-	});
-
-
-
+	deleteAjax();
+	saveAjax();
+	loadAjax();
 
 
 	
